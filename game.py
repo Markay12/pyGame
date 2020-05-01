@@ -86,7 +86,8 @@ while continueGame:
 
 
     #detect collisions
-    #if pygame.sprite.collide_mask(ball, paddleA) or pygame.sprite.collide_mask(ball, paddle)
+    if pygame.sprite.collide_mask(ball, leftPaddle) or pygame.sprite.collide_mask(ball, rightPaddle):
+        ball.bounce()
 
        
 
@@ -100,7 +101,7 @@ while continueGame:
     sprites_list.draw(screen)
 
     #Displaye scores
-    dont = pygame.font.Font(None, 74)
+    font = pygame.font.Font(None, 74)
     text = font.render(str(scoreA), 1, WHITE)
     screen.blit(text, (250, 10))
     text = font.render(str(scoreB), 1, WHITE)
