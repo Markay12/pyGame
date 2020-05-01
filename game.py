@@ -21,12 +21,18 @@ rightPaddle = paddle(WHITE, 10, 100)
 rightPaddle.rect.x = 670
 rightPaddle.rect.y = 200
 
+#create and add ball sprite
+ball = ball(WHITE, 10, 10)
+ball.rect.x = 345
+ball.rect.y = 195
+
 #list that contains all of the sprites
 sprites_list = pygame.sprite.Group()
 
 #add paddles to list
 sprites_list.add(leftPaddle)
 sprites_list.add(rightPaddle)
+sprites_list.add(ball)
 
 #loop to keep the game moving
 continueGame = True
@@ -57,6 +63,17 @@ while continueGame:
         rightPaddle.moveUp(5)
     if keys[pygame.K_DOWN]:
         rightPaddle.moveDown(5)
+
+    #check ball boundaries
+    if ball.rect.x >= 690:
+        ball.velocity[0] = -ball.velocity[0] #change direction
+    if ball.rect.x <=0:
+        ball.velocity[0] = -ball.velocity[0]
+    if ball.rect.y > 490:
+        ball.velocity[1] = -ball.velocity[1]
+    if ball.rect.y < 0:
+        ball.velocity[1] = -ball.velocity[1]
+
 
     #Game logic
     sprites_list.update()        
