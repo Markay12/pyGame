@@ -1,5 +1,6 @@
 import pygame
 from paddle import paddle
+from ball import ball
 
 successes, failures = pygame.init()
 print("{0} successes and {1} failures".format(successes, failures))
@@ -40,6 +41,10 @@ continueGame = True
 #update interval
 updat = pygame.time.Clock()
 
+#init player scores
+scoreA = 0
+scoreB = 0
+
 #---Main loop---
 while continueGame:
     for event in pygame.event.get(): #actionEvent
@@ -64,10 +69,15 @@ while continueGame:
     if keys[pygame.K_DOWN]:
         rightPaddle.moveDown(5)
 
+    #Game logic
+    sprites_list.update() 
+
     #check ball boundaries
     if ball.rect.x >= 690:
+        scoreA += 1 #update score
         ball.velocity[0] = -ball.velocity[0] #change direction
     if ball.rect.x <=0:
+        scoreB += 1 #update score
         ball.velocity[0] = -ball.velocity[0]
     if ball.rect.y > 490:
         ball.velocity[1] = -ball.velocity[1]
@@ -75,8 +85,10 @@ while continueGame:
         ball.velocity[1] = -ball.velocity[1]
 
 
-    #Game logic
-    sprites_list.update()        
+    #detect collisions
+    #if pygame.sprite.collide_mask(ball, paddleA) or pygame.sprite.collide_mask(ball, paddle)
+
+       
 
     #clear screen to black
     screen.fill(BLACK)
@@ -86,6 +98,14 @@ while continueGame:
 
     #update all sprites
     sprites_list.draw(screen)
+
+    #Displaye scores
+    dont = pygame.font.Font(None, 74)
+    text = font.render(str(scoreA), 1, WHITE)
+    screen.blit(text, (250, 10))
+    text = font.render(str(scoreB), 1, WHITE)
+    screen.blit(text, (420, 10))
+
 
     #update screen
     pygame.display.flip()
